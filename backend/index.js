@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 mongoose
-  .connect("mongodb+srv://Malviyajay:masai@cluster0.7xg3wkz.mongodb.net/TodoList?retryWrites=true&w=majority")
+  .connect(process.env.URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
@@ -62,7 +62,7 @@ app.delete("/tasks/:id", async (req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT =  5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(` Server is running on port ${PORT}`);
 });
