@@ -7,15 +7,15 @@ import TaskForm from "./components/TaskForm";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-
+  const url = "https://alluviumbackend-3.onrender.com/tasks"
   useEffect(() => {
-    axios.get("http://localhost:5000/tasks")
+    axios.get(url)
       .then(response => setTasks(response.data))
       .catch(err => console.error("Error fetching tasks:", err));
   }, []);
 
   const addTask = (taskTitle) => {
-    axios.post("http://localhost:5000/tasks", { title: taskTitle })
+    axios.post(url, { title: taskTitle })
       .then(response => {
         setTasks([...tasks, response.data]);
         setNewTask("");
@@ -24,7 +24,7 @@ function App() {
   };
 
   const updateTask = (id, updatedTitle) => {
-    axios.put(`http://localhost:5000/tasks/${id}`, { title: updatedTitle })
+    axios.put(`${url}/${id}`, { title: updatedTitle })
       .then(response => {
         const updatedTasks = tasks.map(task =>
           task._id === response.data._id ? response.data : task
@@ -35,7 +35,7 @@ function App() {
   };
 
   const deleteTask = (id) => {
-    axios.delete(`http://localhost:5000/tasks/${id}`)
+    axios.delete(`${url}/${id}`)
       .then(() => {
         setTasks(tasks.filter(task => task._id !== id));
       })
